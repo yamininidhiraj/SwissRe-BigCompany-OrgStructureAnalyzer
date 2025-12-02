@@ -1,41 +1,63 @@
 # Org Structure Analyzer
 
-A Java program that:
+This project analyzes the organizational structure of a large company using employee information stored in a CSV file. 
 
-- Reads a CSV file.
+It identifies:
 
-- Builds an in-memory representation of the org chart.
+- Underpaid managers (earning <20% above avg subordinate salary)
 
-- For each manager:
+- Overpaid managers (earning >50% above avg subordinate salary)
 
-  1. Compute subordinate salary average.
-  2. Check if salary is below required minimum (20% rule).
-  3. Check if salary is above allowed maximum (50% rule).
+- Employees with reporting lines deeper than 4 levels
 
-- For each employee:
-  1. Compute the number of managers between them and the CEO.
-  2. Print if this number > 4.
-  3. Print results clearly.
+The application exposes REST APIs instead of printing results to the console.
 
-## Tech Stack
+## Requirements
 
-- Java SE 17
+- Java 17
 
-- Maven for build
+- Maven 3.6.3
 
-- JUnit 5 for testing
+- Spring Boot 3.1.4
+
+## Notes & Assumptions
+
+- CSV file always has valid formatting
+
+- Salaries are numeric (BigDecimal)
+
+- At most 1000 employees
+
+- Reporting chain is tree-like (no circular references)
+
+- Controller returns clean JSON responses
 
 ## Build
 ```
 mvn clean install
 ```
 
-## Run locally
+## Run Service locally
 
-Run 
+Run Service
 ```
 mvn spring-boot:run
 ```
+Spring Boot will automatically:
+
+- Start an embedded Tomcat server 
+
+- Load the CSV file
+
+- Initialize service + controller beans
+
+- Expose REST APIs 
+
+## API Endpoints
+
+- GET http://localhost:8080/api/underpaid
+- GET http://localhost:8080/api/overpaid
+- GET http://localhost:8080/api/long-reporting-lines
 
 ## Project Structure
 
@@ -53,39 +75,10 @@ src/
          │     └── CsvEmployeeReader.java
      └── resources/
            └── employees.csv
+           └── images/...
  └── test/
        └── OrgAnalyzerServiceTest.java  
 ```
-
-## High-Level Architecture
-
-### CsvEmployeeReader
-
-- Responsible for reading CSV using BufferedReader.
-
-- Converts each line into an Employee object.
-
-- Returns a List<Employee>.
-
-### OrgAnalyzerService
-
-- Performs the core logic:
-
-- Computes average subordinate salaries.
-
-- Identifies underpaid and overpaid managers.
-
-- Detects long reporting lines.
-
-### OrgAnalyzerController
-
-- Entry point.
-
-- Loads the CSV.
-
-- Calls service methods.
-
-- Prints formatted results to the console.
 
 ### Example CSV
 
@@ -99,13 +92,10 @@ src/
 
 ### Example Output
 
-```
---- UNDERPAID MANAGERS ---
-124 -> 15000.000
+GET http://localhost:8080/api/underpaid
+![underpaid.png](src/main/resources/images/underpaid.png)
+GET http://localhost:8080/api/overpaid
+![overpaid.png](src/main/resources/images/overpaid.png)
+GET http://localhost:8080/api/long-reporting-lines
+![long-reporting-lines.png](src/main/resources/images/long-reporting-lines.png)
 
---- OVERPAID MANAGERS ---
-None
-
---- LONG REPORTING LINES (>4) ---
-None
-```
