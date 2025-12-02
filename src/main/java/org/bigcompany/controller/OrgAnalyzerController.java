@@ -3,30 +3,35 @@ package org.bigcompany.controller;
 import org.bigcompany.util.CsvEmployeeReader;
 import org.bigcompany.model.Employee;
 import org.bigcompany.service.OrgAnalyzerService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
 
+@RestController
 public class OrgAnalyzerController {
 
-    public void run() {
-        CsvEmployeeReader reader = new CsvEmployeeReader();
+    private final OrgAnalyzerService service;
+
+    public OrgAnalyzerController(CsvEmployeeReader reader) {
+        // Load employees once from CSV
         List<Employee> employees = reader.read("employees.csv");
-
-        OrgAnalyzerService service = new OrgAnalyzerService(employees);
-
-        System.out.println("--- UNDERPAID MANAGERS ---");
-        print(service.managersUnderpaid());
-
-        System.out.println("\n--- OVERPAID MANAGERS ---");
-        print(service.managersOverpaid());
-
-        System.out.println("\n--- LONG REPORTING LINES (>4) ---");
-        print(service.employeesWithTooLongReportingLines());
+        this.service = new OrgAnalyzerService(employees);
     }
 
-    private void print(Map<?, ?> map) {
-        if (map.isEmpty()) System.out.println("None");
-        else map.forEach((k, v) -> System.out.println(k + " -> " + v));
+    @GetMapping("/api/underpaid")
+    public Map<String, Object> getUnderpaidManagers() {
+        return Map.of("underpaidManagers", service.managersUnderpaid());
+    }
+
+    @GetMapping("/api/overpaid")
+    public Map<String, Object> getOverpaidManagers() {
+        return Map.of("overpaidManagers", service.managersOverpaid());
+    }
+
+    @GetMapping("/api/long-reporting-lines")
+    public Map<String, Object> getLongReportingLines() {
+        return Map.of("tooLongReportingLines", service.employeesWithTooLongReportingLines());
     }
 }

@@ -1,6 +1,7 @@
 package org.bigcompany.util;
 
 import org.bigcompany.model.Employee;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,9 +9,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class CsvEmployeeReader {
 
-    public List<Employee> read(String filePath) {
+    public static List<Employee> read(String filePath) {
         List<Employee> list = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
