@@ -54,7 +54,7 @@ Spring Boot will automatically:
 - Expose REST APIs 
 
 ## API Endpoints
-
+- POST http://localhost:8080/api/load?path=<path-to-csv-file>
 - GET http://localhost:8080/api/underpaid
 - GET http://localhost:8080/api/overpaid
 - GET http://localhost:8080/api/long-reporting-lines
@@ -80,22 +80,20 @@ src/
        └── OrgAnalyzerServiceTest.java  
 ```
 
-### Example CSV
+### Example Input
 
-| Id  | firstName | lastName | salary |  managerId |  
-|-----|---|---|--------|---|
-| 123 | Joe | Doe | 60000  |
-| 124 | Martin | Chekov | 45000  | 123
-| 125 | Bob | Ronstad | 47000  | 123
-| 300 | Alice | Hasacat | 50000  | 124
-| 305 | Brett | Hardleaf | 34000  | 300
+- Default CSV - [employees.csv](https://github.com/yamininidhiraj/SwissRe-BigCompany-OrgStructureAnalyzer/blob/main/src/main/resources/employees.csv)
+- Provide path using Post call
+
+POST http://localhost:8080/api/load?path=<path-to-csv-file>
+![path-to-csv.png](src/main/resources/images/post-path-to-csv.png)
 
 ### Example Output
 
 GET http://localhost:8080/api/underpaid
-![underpaid.png](src/main/resources/images/underpaid.png)
+![get-underpaid.png](src/main/resources/images/get-underpaid.png)
 GET http://localhost:8080/api/overpaid
-![overpaid.png](src/main/resources/images/overpaid.png)
+![get-overpaid.png](src/main/resources/images/get-overpaid.png)
 GET http://localhost:8080/api/long-reporting-lines
-![long-reporting-lines.png](src/main/resources/images/long-reporting-lines.png)
+![get-long-reporting-lines.png](src/main/resources/images/get-long-reporting-lines.png)
 
