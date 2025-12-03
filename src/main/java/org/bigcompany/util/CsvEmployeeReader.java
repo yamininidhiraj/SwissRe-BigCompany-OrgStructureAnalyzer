@@ -4,10 +4,7 @@ import org.bigcompany.model.Employee;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -19,22 +16,30 @@ public class CsvEmployeeReader {
     public List<Employee> read(String filePath) {
         try {
             if (filePath == null || filePath.isBlank()) {
-                System.out.println("No file provided. Reading default employees.csv from resources...");
+                System.out.println("Reading default employees.csv from resources...");
                 return readFromResource("employees.csv");
             } else {
+                System.out.println("File provided by client. Loading from: "+filePath);
                 return readFromDisk(filePath);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Failed to read CSV file: " + e.getMessage(), e);
+            throw new RuntimeException("CSV file not found. " + e.getMessage(), e);
         }
     }
 
     private List<Employee> readFromDisk(String path) throws IOException {
-        return parse(Files.newBufferedReader(new File(path).toPath()));
+        File file = new File(path);
+        if (!file.exists()) {
+            throw new FileNotFoundException("Please check if the file exists at given path: " + path);
+        }
+        return parse(Files.newBufferedReader(file.toPath()));
     }
 
     private List<Employee> readFromResource(String name) throws IOException {
         ClassPathResource resource = new ClassPathResource(name);
+        if (!resource.exists()) {
+            throw new FileNotFoundException("employees.csv missing in resources folder.");
+        }
         return parse(new BufferedReader(new InputStreamReader(resource.getInputStream())));
     }
 
