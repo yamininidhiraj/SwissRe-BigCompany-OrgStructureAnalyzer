@@ -45,13 +45,13 @@ mvn spring-boot:run
 ```
 Spring Boot will automatically:
 
-- Start an embedded Tomcat server 
+- Start an embedded Tomcat server.
 
-- Load the CSV file
+- Initialize Spring Boot beans including OrgAnalyzerController and CsvEmployeeReader.
 
-- Initialize service + controller beans
+- Expose REST APIs (POST /api/load, GET /api/underpaid, GET /api/overpaid, GET /api/long-reporting-lines).
 
-- Expose REST APIs 
+- Load the CSV file and print the report to console when you call the POST /api/load API (either default CSV or a client-provided path).
 
 ## API Endpoints
 - POST http://localhost:8080/api/load?path=<path-to-csv-file>
@@ -82,13 +82,16 @@ src/
 
 ### Example Input
 
-- Default CSV - [employees.csv](https://github.com/yamininidhiraj/SwissRe-BigCompany-OrgStructureAnalyzer/blob/main/src/main/resources/employees.csv)
-- Provide path using Post call
-
+1. Default CSV - [employees.csv](https://github.com/yamininidhiraj/SwissRe-BigCompany-OrgStructureAnalyzer/blob/main/src/main/resources/employees.csv)
+2. Provide path using API: 
 POST http://localhost:8080/api/load?path=<path-to-csv-file>
+
 ![path-to-csv.png](src/main/resources/images/post-path-to-csv.png)
 
 ### Example Output
+
+1. Output printed in console
+2. Output exposed through APIs 
 
 GET http://localhost:8080/api/underpaid
 ![get-underpaid.png](src/main/resources/images/get-underpaid.png)

@@ -85,7 +85,7 @@ public class OrgAnalyzerService {
                 cur = map.get(cur).getManagerId();
 
                 if (depth > 4) {
-                    result.put(e.getId(), depth - 4);
+                    result.put(e.getId(), depth);
                     break;
                 }
             }
