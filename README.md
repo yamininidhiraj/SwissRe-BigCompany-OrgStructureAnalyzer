@@ -85,18 +85,36 @@ src/
 1. Default CSV - [employees.csv](https://github.com/yamininidhiraj/SwissRe-BigCompany-OrgStructureAnalyzer/blob/main/src/main/resources/employees.csv)
 2. Provide path using API: 
 POST http://localhost:8080/api/load?path=<path-to-csv-file>
-
-![path-to-csv.png](src/main/resources/images/post-path-to-csv.png)
+![POST load.png](src/main/resources/images/POST%20load.png)
 
 ### Example Output
 
 1. Output printed in console
+```avroidl
+File provided by client. Loading from: /Users/yr095773/Documents/employee2.csv
+
+--- UNDERPAID MANAGERS ---
+[Employee Id = 124]
+{Underpaid by =135000.000}
+[Employee Id = 305]
+{Underpaid by =2000.000}
+
+--- OVERPAID MANAGERS ---
+[Employee Id = 300]
+{Overpaid by =99000.000}
+
+--- LONG REPORTING LINES (>4) ---
+[Employee Id = 313]
+{long reporting Lines by =1}
+```
 2. Output exposed through APIs 
 
-GET http://localhost:8080/api/underpaid
-![get-underpaid.png](src/main/resources/images/get-underpaid.png)
-GET http://localhost:8080/api/overpaid
-![get-overpaid.png](src/main/resources/images/get-overpaid.png)
-GET http://localhost:8080/api/long-reporting-lines
-![get-long-reporting-lines.png](src/main/resources/images/get-long-reporting-lines.png)
+- GET http://localhost:8080/api/underpaid
+![GET underpaid.png](src/main/resources/images/GET%20underpaid.png)
+
+- GET http://localhost:8080/api/overpaid
+![GET overpaid.png](src/main/resources/images/GET%20overpaid.png)
+
+- GET http://localhost:8080/api/long-reporting-lines
+  ![GET long-reporting-lines.png](src/main/resources/images/GET%20long-reporting-lines.png)
 

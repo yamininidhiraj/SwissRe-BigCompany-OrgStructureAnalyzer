@@ -57,6 +57,6 @@ public class OrgAnalyzerServiceTest {
 
         assertNotNull(tooLong);
         assertTrue(tooLong.containsKey("313"));
-        assertEquals(5, tooLong.get("313"));
+        assertEquals(1, tooLong.get("313"));
     }
 }
