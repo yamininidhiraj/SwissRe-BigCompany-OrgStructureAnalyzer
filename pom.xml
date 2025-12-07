@@ -70,14 +70,6 @@
             <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- Optional: messaging (RabbitMQ/Kafka) if needed -->
-        <!-- Example for Kafka:
-        <dependency>
-          <groupId>org.springframework.kafka</groupId>
-          <artifactId>spring-kafka</artifactId>
-        </dependency>
-        -->
     </dependencies>
 
     <build>
